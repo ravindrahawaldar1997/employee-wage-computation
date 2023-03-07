@@ -1,24 +1,27 @@
 package com.bridgelabz.employee_wage_computation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EmployeeWage implements IComputeEmpWage {
     public static final int IS_FULL_TIME = 1;
     public static final int IS_PART_TIME = 2;
     private int numOfCompany = 0;
-    private CompanyEmpWage[] companyEmpWageArray;
+   private List<CompanyEmpWage> companyEmpWageArrayList;
 
     public EmployeeWage() {
-        companyEmpWageArray = new CompanyEmpWage[5];
+        companyEmpWageArrayList = new ArrayList<>();
     }
-
     public void addCompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth) {
-        companyEmpWageArray[numOfCompany] = new CompanyEmpWage(company, empRatePerHour, numOfWorkingDays, maxHoursPerMonth);
-        numOfCompany++;
+        CompanyEmpWage companyWage = new CompanyEmpWage(company, empRatePerHour, numOfWorkingDays, maxHoursPerMonth);
+        companyEmpWageArrayList.add(companyWage);
     }
 
     public void computeEmpWage() {
-        for (int i = 0; i < numOfCompany; i++) {
-            companyEmpWageArray[i].setTotalEmpWage(this.computeEmpWage(companyEmpWageArray[i]));
-            System.out.println(companyEmpWageArray[i].toString());
+        for (int i = 0; i < companyEmpWageArrayList.size(); i++) {
+            CompanyEmpWage companyWage = companyEmpWageArrayList.get(i);
+            companyWage.setTotalEmpWage(this.computeEmpWage(companyWage));
+            System.out.println(companyWage);
         }
     }
 
