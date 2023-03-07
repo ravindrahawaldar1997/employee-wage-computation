@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeWage implements IComputeEmpWage {
-    public static final int IS_FULL_TIME = 1;
-    public static final int IS_PART_TIME = 2;
+    public static final int IS_PART_TIME = 1;
+    public static final int IS_FULL_TIME = 2;
+
     private int numOfCompany = 0;
-   private List<CompanyEmpWage> companyEmpWageArrayList;
+    private List<CompanyEmpWage> companyEmpWageArrayList;
 
     public EmployeeWage() {
         companyEmpWageArrayList = new ArrayList<>();
     }
+
     public void addCompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth) {
         CompanyEmpWage companyWage = new CompanyEmpWage(company, empRatePerHour, numOfWorkingDays, maxHoursPerMonth);
         companyEmpWageArrayList.add(companyWage);
@@ -26,7 +28,7 @@ public class EmployeeWage implements IComputeEmpWage {
     }
 
     private int computeEmpWage(CompanyEmpWage companyEmpWage) {
-        int empHrs = 0, totalEmpHrs = 0, totalWorkingDays = 0;
+        int empHrs = 0, totalEmpHrs = 0, totalWorkingDays = 0, day = 0, dailyWage = 0;
         while (totalEmpHrs <= companyEmpWage.maxHoursPerMonth && totalWorkingDays < companyEmpWage.numOfWorkingDays) {
             totalWorkingDays++;
             int empCheck = (int) Math.floor(Math.random() * 10) % 3;
@@ -40,9 +42,16 @@ public class EmployeeWage implements IComputeEmpWage {
                 default:
                     empHrs = 0;
             }
+            dailyWage = empHrs * companyEmpWage.empRatePerHour;
+            companyEmpWage.dailyWage[day] = dailyWage;
+            day++;
             totalEmpHrs += empHrs;
-            System.out.println("Day : " + totalWorkingDays + " Emp Hr " + empHrs);
         }
+        System.out.println("Daily wage is: ");
+        for (int i = 0; i < totalWorkingDays; i++) {
+            System.out.print(companyEmpWage.dailyWage[i] + " ");
+        }
+        System.out.println();
         return totalEmpHrs * companyEmpWage.empRatePerHour;
     }
 
